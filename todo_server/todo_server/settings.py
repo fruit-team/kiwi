@@ -14,6 +14,8 @@ import os
 
 from django.utils.translation import gettext_lazy as _
 
+from .secure_settings import get_setting
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -22,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '7khkka!0%m+yzy%8)(ps@1ankb=#qz4_b6x#it5c07=r#4!61i'
+SECRET_KEY = get_setting('/etc/kiwi/settings.json', 'SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -93,12 +95,16 @@ WSGI_APPLICATION = 'todo_server.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+
+DATABASES = get_setting('/etc/kiwi/settings.json', 'DATABASES')
+
+# sudo -u postgres psql
+# create database kiwi;
+# create user kiwiuser with password '1234';
+# alter role kiwiuser set client_encoding to 'utf-8';
+# alter role kiwiuser set timezone to 'Asia/Seoul';
+# grant all privileges on database kiwi to kiwiuser;
+
 
 
 # Password validation
