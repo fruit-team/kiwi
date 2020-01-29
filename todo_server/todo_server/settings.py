@@ -105,7 +105,10 @@ DATABASES = get_setting('/etc/kiwi/settings.json', 'DATABASES')
 # alter role kiwiuser set timezone to 'Asia/Seoul';
 # grant all privileges on database kiwi to kiwiuser;
 
+CACHES = get_setting('/etc/kiwi/settings.json', 'CACHES')
 
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+SESSION_CACHE_ALIAS = 'default'
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
